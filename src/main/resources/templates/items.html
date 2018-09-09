@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Items</title>
+</head>
+<body>
+<h1>Item List</h1>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Code</th>
+        <th>Name</th>
+        <th>View</th>
+        <th>Update</th>
+        <th>Delete</th>
+    </tr>
+    <tr th:each="item:${items}">
+        <td th:text="${item.id}">123</td>
+        <td th:text="${item.code}">Item Code</td>
+        <td th:text="${item.name}">Item Name</td>
+        <td><a href="#" th:href="@{'/items/'+${item.id}}">View</a></td>
+        <td><a href="#" th:href="@{'/items/update/'+${item.id}}">Edit</a></td>
+        <td><a href="#" th:href="@{'/items/delete/'+${item.id}}">Delete</a></td>
+    </tr>
+</table>
+
+</body>
+</html>

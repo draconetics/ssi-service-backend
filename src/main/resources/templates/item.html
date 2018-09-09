@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Items</title>
+</head>
+<body>
+<h1 th:text="'Item '+ ${item.name}">Item Name</h1>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Code</th>
+        <th>Name</th>
+        <th>Sub Category</th>
+    </tr>
+    <!--/*@thymesVar id="item" type="com.dh.spring5webapp.model.Item"*/-->
+    <tr>
+        <td th:text="${item.id}">123</td>
+        <td th:text="${item.code}">ItemCode</td>
+        <td th:text="${item.name}">ItemName</td>
+        <td th:text="${item.subCategory.name}">Jhon</td>
+    </tr>
+</table>
+<div>
+    <label>Image</label>
+    <a href="#" th:href="@{'/items/'+${item.id}+'/image'}">Image</a>
+</div>
+</body>
+
+</html>
