@@ -4,21 +4,23 @@
 
 package com.dh.ssiservice.controller;
 
+import com.dh.ssiservice.dao.CategoryCommand;
 import com.dh.ssiservice.model.Category;
 import com.dh.ssiservice.services.CategoryService;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.constraints.NotNull;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-@RequestMapping("/categories")
+@Path("/categories")
+@Produces("application/json")
+@CrossOrigin
 public class CategoryController {
     private CategoryService categoryService;
 
@@ -27,12 +29,20 @@ public class CategoryController {
     }
 
     @GET
-    public Response getCategories(@QueryParam("code") String code) {
-        List<Category> categories = categoryService.findByCode(code);
-        Response.ResponseBuilder responseBuilder = Response.ok(categories);
-        addCorsHeader(responseBuilder);
-        return responseBuilder.build();
+    public Response getCategories() {
+
+        List<CategoryCommand> categoryList = new ArrayList<>();
+        categoryService.findAll().forEach(cat ->{
+            categoryList.add(new CategoryCommand(cat));
+        });
+        return Response.ok(categoryList).build();
+
+//        List<Category> categories = categoryService.findByCode(code);
+//        Response.ResponseBuilder responseBuilder = Response.ok(categories);
+//        addCorsHeader(responseBuilder);
+//        return responseBuilder.build();
     }
+
 
     @GET
     @Path("/{id}")
