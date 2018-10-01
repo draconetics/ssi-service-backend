@@ -36,48 +36,74 @@ public class DevBootstrap implements ApplicationListener<ContextRefreshedEvent> 
     }
 
     private void initData() {
-        Category eppCategory = new Category();
-        eppCategory.setCode("EPPAA");
-        eppCategory.setName("EPP");
+        Category cpCategory = new Category();
+        cpCategory.setCode("IS-CP");
+        cpCategory.setName("Clothing Protection");
+        categoryRepository.save(cpCategory);
 
-        categoryRepository.save(eppCategory);
+        Category epCategory = new Category();
+        epCategory.setCode("IS-EP");
+        epCategory.setName("Equipment Protection");
+        categoryRepository.save(epCategory);
 
-//        RES category
-        Category resourceCategory = new Category();
-        resourceCategory.setCode("RES");
-        resourceCategory.setName("RESOURCE");
-        categoryRepository.save(resourceCategory);
+        Category ssCategory = new Category();
+        ssCategory.setCode("IS-SS");
+        ssCategory.setName("Security Shoes");
+        categoryRepository.save(ssCategory);
 
-        // safety subcategory
+        // Hand protection subcategory
         SubCategory safetySubCategory = new SubCategory();
-        safetySubCategory.setCategory(eppCategory);
-        safetySubCategory.setCode("SAF");
-        safetySubCategory.setName("SAFETY");
-
+        safetySubCategory.setCategory(epCategory);
+        safetySubCategory.setCode("SIS-HP01");
+        safetySubCategory.setName("Hand Protection");
         subCategoryRepository.save(safetySubCategory);
 
-        // raw material subcategory
+        // jacket protection subcategory
         SubCategory rawMaterialSubCategory = new SubCategory();
-        rawMaterialSubCategory.setCategory(resourceCategory);
-        rawMaterialSubCategory.setCode("RM");
-        rawMaterialSubCategory.setName("RAW MATERIAL");
-
+        rawMaterialSubCategory.setCategory(cpCategory);
+        rawMaterialSubCategory.setCode("SIS-CP01");
+        rawMaterialSubCategory.setName("Jacket Proteccion");
         subCategoryRepository.save(rawMaterialSubCategory);
+
+        // jacket protection subcategory
+        SubCategory shoesSubCategory = new SubCategory();
+        shoesSubCategory.setCategory(ssCategory);
+        shoesSubCategory.setCode("SIS-SS01");
+        shoesSubCategory.setName("Boot Proteccion");
+        subCategoryRepository.save(shoesSubCategory);
+
 
         // Helmet Item
         Item helmet = new Item();
-        helmet.setCode("HEL");
-        helmet.setName("HELMET");
+        helmet.setCode("HELMET-TONKA");
+        helmet.setName("Occunomix RB405 Classic Regular Length Winter Liner Twill (Each)\n" +
+                "$9.09");
         helmet.setSubCategory(safetySubCategory);
 
         itemRepository.save(helmet);
 
-        // ink Item
-        Item ink = new Item();
-        ink.setCode("INK");
-        ink.setName("INK");
-        ink.setSubCategory(rawMaterialSubCategory);
-        itemRepository.save(ink);
+        // BOOT Item
+        Item boot = new Item();
+        boot.setCode("BOOT-VOLVO-01");
+        boot.setName("HF 44230 Black Unisex Value Boots (8\"-13\")");
+        boot.setSubCategory(shoesSubCategory);
+        itemRepository.save(boot);
+
+//***************************************************
+ //        jacket Item
+        Item jacket = new Item();
+        jacket.setCode("JACKET-VOLVO-01");
+        jacket.setName("Radians SV55-2Z Class 2 Woven Two Tone Engineer's Safety Vest");
+        jacket.setSubCategory(rawMaterialSubCategory);
+        itemRepository.save(jacket);
+
+  //       BOOT Item
+        Item fallteck = new Item();
+        fallteck.setCode("HALTECK-SCANNIA-01");
+        fallteck.setName("FallTech Contractors Full Body Harness / 7015");
+        fallteck.setSubCategory(safetySubCategory);
+        itemRepository.save(fallteck);
+
 
         // John Employee
         Employee john = new Employee();

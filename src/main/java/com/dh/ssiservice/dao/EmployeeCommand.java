@@ -58,14 +58,15 @@ public class EmployeeCommand extends ModelBase {
 
 
     private void setImageBase64(Employee employee) {
+        System.out.println("***************************************");
         if (employee.getImage() != null) {
             byte[] bytes = new byte[employee.getImage().length];
             for (int i = 0; i < employee.getImage().length; i++) {
                 bytes[i] = employee.getImage()[i];
+                //System.out.println(employee.getImage()[i]);
             }
             String imageStr = Base64.encodeBase64String(bytes);
             this.setImage(imageStr);
-
         }
     }
 
@@ -125,6 +126,28 @@ public class EmployeeCommand extends ModelBase {
         employee.setVersion(getVersion());
         employee.setCreatedOn(getCreatedOn());
         employee.setUpdatedOn(getUpdatedOn());
+        //employee.setImage((Byte[]) Base64.decodeBase64(getImage()));
+
+//        if(getImage() != null){
+//            System.out.println("decoding !!!!");
+//            //Byte [] image = org.yaml.snakeyaml.util.ArrayUtils.toObject(Base64.decodeBase64(getImage()));
+//            employee.setImage(decodeString(getImage()));
+//            System.out.println("decoded");
+//        }
+
         return employee;
+    }
+
+    public Byte[] decodeString(String image){
+
+
+            byte[] bytes = Base64.decodeBase64(image);
+            Byte [] b = new Byte[bytes.length];
+            for(int i=0; i< bytes.length;i++){
+                    b[i] = Byte.valueOf(b[i]);
+            }
+            return b;
+
+
     }
 }

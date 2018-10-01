@@ -59,8 +59,13 @@ public class EmployeeController {
 
     @PUT
     public EmployeeCommand updateEmployee(EmployeeCommand employeeCommand) {
-        Employee employee = service.save(employeeCommand.toEmployee());
-        return new EmployeeCommand(employee);
+        Employee e = service.findById(employeeCommand.getId());
+        e.setFirstName(employeeCommand.getFirstName());
+        e.setLastName(employeeCommand.getLastName());
+        service.save(e);
+        return new EmployeeCommand(e);
+//        Employee employee = service.save(employeeCommand.toEmployee());
+//        return new EmployeeCommand(employee);
     }
 
     @DELETE
