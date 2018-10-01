@@ -10,6 +10,8 @@ import com.dh.ssiservice.services.ItemService;
 import com.dh.ssiservice.services.SubCategoryService;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
@@ -20,6 +22,7 @@ import javax.ws.rs.core.Response;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @Path("/items")
@@ -27,18 +30,18 @@ import java.util.List;
 @CrossOrigin
 public class ItemController{
 
-    private ItemService service;
+    private ItemService itemService;
     private SubCategoryService subCategoryService;
 
-    public ItemController(ItemService service, SubCategoryService subCategoryService) {
-        this.service = service;
+    public ItemController(ItemService itemService, SubCategoryService subCategoryService) {
+        this.itemService = itemService;
         this.subCategoryService = subCategoryService;
     }
 
     @GET
     public Response getItems() {
         List<ItemCommand> items = new ArrayList<>();
-        service.findAll().forEach(item -> {
+        itemService.findAll().forEach(item -> {
             ItemCommand itemCommand = new ItemCommand(item);
             items.add(itemCommand);
         });
@@ -48,7 +51,7 @@ public class ItemController{
     @GET
     @Path("/{id}")
     public Response getItemsById(@PathParam("id") @NotNull Long id) {
-        Item item = service.findById(id);
+        Item item = itemService.findById(id);
         return Response.ok(new ItemCommand(item)).build();
     }
 
@@ -57,20 +60,20 @@ public class ItemController{
         System.out.println(item);
         Item model = item.toDomain();
         model.setSubCategory(subCategoryService.findById(item.getSubCategoryId()));
-        Item itemPersisted = service.save(model);
+        Item itemPersisted = itemService.save(model);
         return Response.ok(new ItemCommand(itemPersisted)).build();
     }
 
     @PUT
     public Response updateItem(Item item) {
-        Item itemPersisted = service.save(item);
+        Item itemPersisted = itemService.save(item);
         return Response.ok(new ItemCommand(itemPersisted)).build();
     }
 
     @DELETE
     @Path("/{id}")
     public Response deleteItem(@PathParam("id") String id) {
-        service.deleteById(Long.valueOf(id));
+        itemService.deleteById(Long.valueOf(id));
         return Response.ok().build();
     }
 
@@ -86,7 +89,14 @@ public class ItemController{
     public Response uploadFile(@PathParam("id") String id,
                                @FormDataParam("file") InputStream file,
                                @FormDataParam("file") FormDataContentDisposition fileDisposition) {
-        service.saveImage(Long.valueOf(id), file);
+        itemService.saveImage(Long.valueOf(id), file);
         return Response.ok("Data uploaded successfully !!").build();
+    }
+
+    @GET
+    @Path("/page/{page}")
+    public Response getItemsRandom(@PathParam("page") @NotNull Integer page){
+        Page<ItemCommand> itemPaging = itemService.getRandomItemsPageable(new PageRequest(page, 2));
+        return Response.ok(itemPaging).build();
     }
 }

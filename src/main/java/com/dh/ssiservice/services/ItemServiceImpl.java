@@ -4,19 +4,31 @@
 
 package com.dh.ssiservice.services;
 
+import com.dh.ssiservice.dao.ItemCommand;
 import com.dh.ssiservice.model.Item;
 import com.dh.ssiservice.repositories.ItemRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class ItemServiceImpl extends GenericServiceImpl<Item> implements ItemService {
     private static Logger logger = LoggerFactory.getLogger(ItemServiceImpl.class);
+
+    @PersistenceContext
+    EntityManager entityManager;
 
     private ItemRepository repository;
 
@@ -40,5 +52,19 @@ public class ItemServiceImpl extends GenericServiceImpl<Item> implements ItemSer
             logger.error("Error reading file", e);
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public Page<ItemCommand> getRandomItemsPageable(Pageable pageable){
+
+        List<ItemCommand> items = new ArrayList<>();
+        repository.findAll().forEach(item -> {
+            ItemCommand itemCommand = new ItemCommand(item);
+            items.add(itemCommand);
+        });
+
+        Page<ItemCommand> paging= new PageImpl<>(items, pageable, items.size());
+
+        return paging;
     }
 }
