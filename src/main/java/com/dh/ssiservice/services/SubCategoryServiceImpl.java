@@ -6,6 +6,9 @@ package com.dh.ssiservice.services;
 
 import com.dh.ssiservice.model.SubCategory;
 import com.dh.ssiservice.repositories.SubCategoryRepository;
+
+import java.util.List;
+
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 
@@ -20,5 +23,10 @@ public class SubCategoryServiceImpl extends GenericServiceImpl<SubCategory> impl
     @Override
     protected CrudRepository<SubCategory, Long> getRepository() {
         return repository;
+    }
+    
+    @Override
+    public List<SubCategory> getSubCategoriesByCategory(Long catId){
+    	return repository.getSubCategoriesByCategory(catId);
     }
 }

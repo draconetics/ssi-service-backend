@@ -126,6 +126,8 @@ public class EmployeeCommand extends ModelBase {
         employee.setVersion(getVersion());
         employee.setCreatedOn(getCreatedOn());
         employee.setUpdatedOn(getUpdatedOn());
+        
+        
         //employee.setImage((Byte[]) Base64.decodeBase64(getImage()));
 
 //        if(getImage() != null){

@@ -53,18 +53,34 @@ public class ItemServiceImpl extends GenericServiceImpl<Item> implements ItemSer
             e.printStackTrace();
         }
     }
-
+    
     @Override
-    public Page<ItemCommand> getRandomItemsPageable(Pageable pageable){
+    public Page<Item> findItemsRandom(Pageable pageable){
+    	return repository.findItemsRandom(pageable);
+    }
 
-        List<ItemCommand> items = new ArrayList<>();
-        repository.findAll().forEach(item -> {
-            ItemCommand itemCommand = new ItemCommand(item);
-            items.add(itemCommand);
-        });
-
-        Page<ItemCommand> paging= new PageImpl<>(items, pageable, items.size());
-
-        return paging;
+//    @Override
+//    public Page<ItemCommand> getRandomItemsPageable(Pageable pageable){
+//
+//        List<ItemCommand> items = new ArrayList<>();
+//       // items = repository.findAll();
+//        Page<ItemCommand> paging= new PageImpl<>(items, pageable, items.size());
+//
+//        return paging;
+//    }
+    
+    @Override
+    public Page<Item>findItemBySubCategory(Pageable pageable, Long id){
+    	return repository.findItemBySubCategory(pageable, id);
+    }
+    
+    @Override
+    public Page<Item> findItemByCategory(Pageable pageable, Long id){
+    	return repository.findItemByCategory(pageable, id);
+    }
+    
+    @Override
+    public Page<Item> findItemByString(Pageable pageable, String search){
+    	return repository.findItemByString(pageable, search);
     }
 }

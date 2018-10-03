@@ -105,6 +105,20 @@ public class DevBootstrap implements ApplicationListener<ContextRefreshedEvent> 
         itemRepository.save(fallteck);
 
 
+
+
+        //rain jacket
+        
+        Item rainJacket = new Item();
+        rainJacket.setCode("RADIAN RW32");
+        rainJacket.setName("Radians RW32-3Z1Y Heavy Duty Rip Stop Waterproof Rain Jacket\r $72.34");
+        rainJacket.setSubCategory(rawMaterialSubCategory);
+        itemRepository.save(fallteck);
+        
+        
+        
+        
+        
         // John Employee
         Employee john = new Employee();
         john.setFirstName("John");

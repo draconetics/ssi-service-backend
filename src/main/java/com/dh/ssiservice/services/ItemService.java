@@ -14,5 +14,11 @@ import java.io.InputStream;
 public interface ItemService extends GenericService<Item> {
     void saveImage(Long id, InputStream file);
 
-    Page<ItemCommand> getRandomItemsPageable(Pageable pageable);
+  Page<Item> findItemsRandom(Pageable pageable);
+  
+  Page<Item>findItemBySubCategory(Pageable pageable, Long id);
+  
+  Page<Item>findItemByCategory(Pageable pageable, Long id);
+  
+  Page<Item> findItemByString(Pageable pageable, String search);
 }

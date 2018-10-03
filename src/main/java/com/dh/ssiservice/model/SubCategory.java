@@ -11,7 +11,8 @@ import javax.persistence.OneToOne;
 public class SubCategory extends ModelBase {
     private String name;
     private String code;
-    @OneToOne(optional = false)
+    
+    @OneToOne(targetEntity = Category.class)
     private Category category;
 
     public String getName() {

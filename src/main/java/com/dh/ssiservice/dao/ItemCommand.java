@@ -5,9 +5,11 @@ package com.dh.ssiservice.dao;
 
 
 import com.dh.ssiservice.model.Item;
+import com.dh.ssiservice.model.ModelBase;
+
 import org.apache.tomcat.util.codec.binary.Base64;
 
-public class ItemCommand{
+public class ItemCommand extends ModelBase{
 
     private String name;
     private String code;
@@ -17,16 +19,20 @@ public class ItemCommand{
     private Long subCategoryId;
     private String price;
     private Object[] comments = new Object[0];
-    private Long id;
     private String description;
     private Boolean featured;
 
     public ItemCommand(Item item) {
+    	setId(item.getId());
+        setVersion(item.getVersion());
+        setCreatedOn(item.getCreatedOn());
+        setUpdatedOn(item.getUpdatedOn());
+        
         this.setCategory(item.getSubCategory().getCategory().getName());
         this.setSubCategoryId(item.getSubCategory().getId());
         this.setDescription("This is all about " + item.getName());
         this.setFeatured(true);//TRUE para todos los objetos
-        this.setId(item.getId());
+        
         this.setName(item.getName());
         this.setCode(item.getCode());
         this.setLabel(item.getName());
@@ -85,13 +91,6 @@ public class ItemCommand{
         this.comments = comments;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getDescription() {
         return description;
@@ -136,8 +135,12 @@ public class ItemCommand{
     public Item toDomain() {
         Item item = new Item();
         item.setCode(getCode());
-        item.setId(getId());
         item.setName(getName());
+        
+        item.setId(getId());
+        item.setVersion(getVersion());
+        item.setCreatedOn(getCreatedOn());
+        item.setUpdatedOn(getUpdatedOn());
         return item;
     }
 }
